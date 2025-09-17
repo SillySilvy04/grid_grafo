@@ -16,27 +16,67 @@ class Graph{
         this.adjList.get(w).add(v);
     }
 
-    // Prints the vertex and adjacency list
-    printGraph()
-    {
-        // get all the vertices
-        var get_keys = this.adjList.keys();
+    bfsShortestPath(start, end){
+        if (!this.adjList.has(start) || !this.adjList.has(end)) {
+            console.log("Vértice não encontrado no grafo!");
+            return null;
+        }
 
-        // iterate over the vertices
-        for (var i of get_keys) 
-    {
-            // get the corresponding adjacency list
-            // for the vertex
-            var get_values = this.adjList.get(i);
-            var conc = "";
+        let visited = new Set();      // guarda vértices já visitados
+        let queue = [];               // fila de visita
+        let parents = new Map();      // para reconstruir o caminho
+        let visitedOrder = [];        // ordem de todos os vértices visitados
 
-            // iterate over the adjacency list
-            // concatenate the values into a string
-            for (var j of get_values)
-                conc += j + " ";
+        queue.push(start);
+        visited.add(start);
+        parents.set(start, null);
 
-            // print the vertex and its adjacency list
-            console.log(i + " -> " + conc);
+        while(queue.length > 0){
+            let vertex = queue.shift();
+            visitedOrder.push(vertex);
+
+            if(vertex === end){
+                // reconstruir caminho do end até o start
+                let path = [];
+                let current = end;
+                while(current !== null){
+                    path.push(current);
+                    current = parents.get(current);
+                }
+                path.reverse(); // inverter para ficar do start até o end
+                return {
+                    path: path,
+                    visited: visitedOrder
+                };
+            }
+
+            for(let neighbor of this.adjList.get(vertex)){
+                if(!visited.has(neighbor)){
+                    visited.add(neighbor);
+                    parents.set(neighbor, vertex);
+                    queue.push(neighbor);
+                }
+            }
+        }
+
+        // se não encontrou caminho
+        return {
+            path: null,
+            visited: visitedOrder
+        };
+    }
+
+    printGraph() {
+        // iterar sobre todos os vértices
+        for (let [vertex, neighbors] of this.adjList) {
+            let conc = "";
+
+            // iterar sobre os vizinhos
+            for (let neighbor of neighbors) {
+                conc += neighbor.id + " "; // pega o ID do botão
+            }
+
+            console.log(vertex.id + " -> " + conc); // imprime o ID do vértice e IDs dos vizinhos
         }
     }
 }

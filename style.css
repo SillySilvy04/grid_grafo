@@ -7,6 +7,7 @@
 .container{
     height: 100vh;
     display: flex;
+    flex-direction: column;
     justify-content: center;
     align-items: center;
     margin: auto 0;
@@ -18,6 +19,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    margin: auto 0;
 }
 
 .button{
@@ -34,4 +36,16 @@
 
 .button-end{
     background-color: black;
+}
+
+.nav-down-bar{
+    margin: auto 0;
+}
+
+.button-path{
+    background-color: orange;
+}
+
+.button-visited{
+    background-color: gray;
 }
