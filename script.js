@@ -45,15 +45,30 @@ function createGrid(lines = 6, columns = 6){
             btn.style.height = "50px";
             btn.classList.add("button");
             btn.value = "green";
-            graph.addVertex(btn);
-
+            
             btn.addEventListener("click", () => {
                 btn.classList = "";
-                if(btn.value = "green"){
+                if(btn.value == "green"){
                     btn.classList.add("button-clicked");
+                    btn.value = "red";
+                }else if(btn.value == "red" && !endExist){
+                    btn.classList.add("button-end");
+                    btn.value = "black";
+                    endExist = true;
+                }else if ((btn.value == "red" || btn.value == "black") && !beginExist){
+                    btn.value == "black" ? endExist = false : null;
+                    btn.classList.add("button-start");
+                    btn.value = "yellow";
+                    beginExist = true;
+                }else if (btn.value == "red" || btn.value == "black" || btn.value == "yellow"){
+                    btn.value == "black" ? endExist = false : null;
+                    btn.value == "yellow" ? beginExist = false : null;
+                    btn.classList.add("button");
+                    btn.value = "green";
                 }
             });
-
+            
+            graph.addVertex(btn);
             grid.appendChild(btn);
         }
     }
