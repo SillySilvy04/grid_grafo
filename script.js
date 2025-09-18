@@ -77,8 +77,16 @@ function resetButtons(){
     endExist = false;
     beginExist = false;
 }
-
 function callBFS(){
+    callSearch("BFS");
+}
+
+function callDFS(){
+    callSearch("DFS");
+}
+
+
+function callSearch(searchType){
     let found = false;
     addGraphEdges();
     let resultado;
@@ -86,7 +94,11 @@ function callBFS(){
         if(vertex1.value == "yellow"){
             for(let [vertex2,neighbor2] of graph.adjList){
                 if(vertex2.value == "black"){
-                    resultado = graph.bfsShortestPath(vertex1,vertex2);
+                    if(searchType === "BFS"){
+                        resultado = graph.bfsShortestPath(vertex1,vertex2);
+                    }else if(searchType === "DFS"){
+                        resultado = graph.dfs(vertex1,vertex2);
+                    }
                     found = true;
                 }
             }

@@ -66,6 +66,56 @@ class Graph{
         };
     }
 
+    dfs(start, end){
+        if (!this.adjList.has(start) || !this.adjList.has(end)) {
+            console.log("Vértice não encontrado no grafo!");
+            return null;
+        }
+
+        let visited = new Set();      // guarda vértices já visitados
+        let stack = [];               // fila de visita
+        let parents = new Map();      // para reconstruir o caminho
+        let visitedOrder = [];        // ordem de todos os vértices visitados
+
+        stack.push(start);
+        visited.add(start);
+        parents.set(start, null);
+
+        while(stack.length > 0){
+            let vertex = stack.pop();
+            visitedOrder.push(vertex);
+
+            if(vertex === end){
+                // reconstruir caminho do end até o start
+                let path = [];
+                let current = end;
+                while(current !== null){
+                    path.push(current);
+                    current = parents.get(current);
+                }
+                path.reverse(); // inverter para ficar do start até o end
+                return {
+                    path: path,
+                    visited: visitedOrder
+                };
+            }
+
+            for(let neighbor of this.adjList.get(vertex)){
+                if(!visited.has(neighbor)){
+                    visited.add(neighbor);
+                    parents.set(neighbor, vertex);
+                    stack.push(neighbor);
+                }
+            }
+        }
+
+        // se não encontrou caminho
+        return {
+            path: null,
+            visited: visitedOrder
+        };
+    }
+
     printGraph() {
         // iterar sobre todos os vértices
         for (let [vertex, neighbors] of this.adjList) {
