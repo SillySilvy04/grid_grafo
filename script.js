@@ -66,9 +66,11 @@ function blockButtons(){
     }
     document.getElementById("BFS").classList.add("button-blocked");
     document.getElementById("DFS").classList.add("button-blocked");
+    document.getElementById("colSlider").classList.add("button-blocked");
+    document.getElementById("lineSlider").classList.add("button-blocked");
 }
 
-function resetButtons(lines=6, columns=6){
+function resetButtons(){
     for(let [vertex,neighbor] of graph.adjList){
         vertex.classList = "";
         vertex.classList.add("button");
@@ -79,21 +81,37 @@ function resetButtons(lines=6, columns=6){
     }
     document.getElementById("BFS").classList.remove("button-blocked");
     document.getElementById("DFS").classList.remove("button-blocked");
+    document.getElementById("colSlider").classList.remove("button-blocked");
+    document.getElementById("lineSlider").classList.remove("button-blocked");
+    graph = new Graph();
     endExist = false;
     beginExist = false;
 }
+
 function callBFS(){
-    callSearch("BFS");
+    graph = new Graph();
+    endExist = false;
+    beginExist = false;
+
+    let columns = document.getElementById("colSlider").value;
+    let lines = document.getElementById("lineSlider").value;
+    callSearch("BFS",lines,columns);
 }
 
 function callDFS(){
-    callSearch("DFS");
+    graph = new Graph();
+    endExist = false;
+    beginExist = false;
+
+    let columns = document.getElementById("colSlider").value;
+    let lines = document.getElementById("lineSlider").value;
+    callSearch("DFS",lines,columns);
 }
 
 
-function callSearch(searchType){
+function callSearch(searchType,lines,columns){
     let found = false;
-    addGraphEdges();
+    addGraphEdges(lines,columns);
     let resultado;
     for(let [vertex1,neighbor1] of graph.adjList){
         if(vertex1.value == "yellow"){
@@ -143,13 +161,38 @@ function callSearch(searchType){
     blockButtons();
 }
 
+function debounce(func, delay) {
+  let timeout;
+  return (...args) => {
+    clearTimeout(timeout);
+    timeout = setTimeout(() => func(...args), delay);
+  };
+}
+
+
+
 function createGrid(lines = 6, columns = 6){
     const grid = document.getElementById("grid");
+    const lineSlider = document.getElementById("lineSlider");
+    const colSlider = document.getElementById("colSlider");
+    const lineValue = document.getElementById("lineValue");
+    const colValue = document.getElementById("colValue");
+
+    const updateGrid = debounce(() => {
+    lineValue.textContent = lineSlider.value;
+    colValue.textContent = colSlider.value;
+    createGrid(parseInt(lineSlider.value), parseInt(colSlider.value));
+    }, 100);
+
     grid.innerHTML = "";
     grid.style.display = "grid";
     grid.style.gridTemplateColumns = `repeat(${columns}, 50px)`;
     grid.style.gridTemplateRows = `repeat(${lines}, 50px)`;
     grid.style.gap = "5px";
+
+    lineSlider.addEventListener("input", updateGrid);
+
+    colSlider.addEventListener("input", updateGrid);
 
     for (let i = 0; i < lines; i++) {
         for (let j = 0; j < columns; j++) {

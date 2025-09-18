@@ -8,6 +8,14 @@
 </head>
 <body>
     <section class="container">
+        <div class="slider-container">
+            <label class="range-value" for="lineSlider">Linhas: <span id="lineValue">6</span></label>
+            <input class="range" type="range" id="lineSlider" min="2" max="10" value="6">
+            
+            <label class="range-value" for="colSlider">Colunas: <span id="colValue">6</span></label>
+            <input class="range" type="range" id="colSlider" min="2" max="15" value="6">
+        </div>
+
         <div id="grid"></div>
 
         <div class="nav-down-bar">
