@@ -13,7 +13,6 @@ function addGraphEdges(lines=6, columns=6) {
 
             // Se o próprio vértice estiver clicado, remove do grafo (não terá vértices nem arestas)
             if (v.classList.contains("button-clicked")) {
-                graph.adjList.delete(v);
                 continue;
             }
 
@@ -60,18 +59,48 @@ function addGraphEdges(lines=6, columns=6) {
     }
 }
 
+function blockButtons(){
+    for(let [vertex,neighbor] of graph.adjList){
+        vertex.classList.add("grid-blocked");
+    }
+    document.getElementById("BFS").classList.add("button-blocked");
+}
+
+function resetButtons(){
+    for(let [vertex,neighbor] of graph.adjList){
+        vertex.classList = "";
+        vertex.classList.add("button");
+        vertex.value = "green";
+        vertex.textContent = "";
+    }
+    document.getElementById("BFS").classList.remove("button-blocked");
+    endExist = false;
+    beginExist = false;
+}
+
 function callBFS(){
+    let found = false;
     addGraphEdges();
-    graph.printGraph()
     let resultado;
     for(let [vertex1,neighbor1] of graph.adjList){
         if(vertex1.value == "yellow"){
             for(let [vertex2,neighbor2] of graph.adjList){
                 if(vertex2.value == "black"){
                     resultado = graph.bfsShortestPath(vertex1,vertex2);
+                    found = true;
                 }
             }
         }
+    }
+
+    if(!found){
+        alert("ERRO: Início ou fim não encontrados");
+        return;
+    }
+
+    if(!resultado || !resultado.path){
+        alert("ERRO: fim não alcançável");
+        return;
     }
 
     if(resultado && resultado.path){
@@ -92,7 +121,7 @@ function callBFS(){
             }
         }
     }
-    
+    blockButtons();
 }
 
 function createGrid(lines = 6, columns = 6){
