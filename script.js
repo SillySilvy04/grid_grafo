@@ -39,6 +39,7 @@ function addGraphEdges(lines=6, columns=6) {
  function buttonsColorChanging(event){
     const btn = event.target
     btn.classList = "";
+    btn.classList.add("button-68");
     if(btn.value == "green"){
         btn.classList.add("button-clicked");
         btn.value = "red";
@@ -71,6 +72,7 @@ function resetButtons(lines=6, columns=6){
     for(let [vertex,neighbor] of graph.adjList){
         vertex.classList = "";
         vertex.classList.add("button");
+        vertex.classList.add("button-68");
         vertex.value = "green";
         vertex.textContent = "";
         graph.removeEdges(vertex);
@@ -121,6 +123,7 @@ function callSearch(searchType){
     if(resultado && resultado.path){
         for(let btn of resultado.path){
             btn.classList = "";
+            btn.classList.add("button-68");
             btn.value = "orange";
             btn.classList.add("button-path");
         }
@@ -131,6 +134,7 @@ function callSearch(searchType){
             cont++;
             if(btn.value !== "orange"){
                 btn.classList = "";
+                btn.classList.add("button-68");
                 btn.value = "gray";
                 btn.classList.add("button-visited");
             }
@@ -155,6 +159,7 @@ function createGrid(lines = 6, columns = 6){
             btn.style.width = "50px";
             btn.style.height = "50px";
             btn.addEventListener("click", buttonsColorChanging);
+            btn.classList.add("button-68");
             btn.classList.add("button");
             btn.value = "green";
             
