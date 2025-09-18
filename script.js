@@ -19,7 +19,7 @@ function addGraphEdges(lines=6, columns=6) {
             // Vizinho abaixo
             if (i < lines - 1) {
                 const vDown = document.getElementById(`${i+1},${j}`);
-                if (!vDown.classList.contains("button-clicked")) {
+                if (!vDown.classList.contains("button-clicked") && !v.classList.contains("button-clicked")) {
                     graph.addEdge(v, vDown);
                 }
             }
@@ -27,7 +27,7 @@ function addGraphEdges(lines=6, columns=6) {
             // Vizinho à direita
             if (j < columns - 1) {
                 const vRight = document.getElementById(`${i},${j+1}`);
-                if (!vRight.classList.contains("button-clicked")) {
+                if (!vRight.classList.contains("button-clicked") && !v.classList.contains("button-clicked")) {
                     graph.addEdge(v, vRight);
                 }
             }
@@ -64,16 +64,19 @@ function blockButtons(){
         vertex.classList.add("grid-blocked");
     }
     document.getElementById("BFS").classList.add("button-blocked");
+    document.getElementById("DFS").classList.add("button-blocked");
 }
 
-function resetButtons(){
+function resetButtons(lines=6, columns=6){
     for(let [vertex,neighbor] of graph.adjList){
         vertex.classList = "";
         vertex.classList.add("button");
         vertex.value = "green";
         vertex.textContent = "";
+        graph.removeEdges(vertex);
     }
     document.getElementById("BFS").classList.remove("button-blocked");
+    document.getElementById("DFS").classList.remove("button-blocked");
     endExist = false;
     beginExist = false;
 }

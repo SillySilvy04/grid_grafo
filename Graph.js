@@ -16,6 +16,24 @@ class Graph{
         this.adjList.get(w).add(v);
     }
 
+    removeEdges(v) {
+    if (!this.adjList.has(v)) {
+        console.log("Vértice não encontrado no grafo!");
+        return;
+    }
+
+    // pega todos os vizinhos do vértice
+    let neighbors = this.adjList.get(v);
+
+    // remove v da lista de vizinhos de cada um
+    for (let neighbor of neighbors) {
+        this.adjList.get(neighbor).delete(v);
+    }
+
+    // limpa todos os vizinhos do vértice
+    this.adjList.set(v, new Set());
+}
+
     bfsShortestPath(start, end){
         if (!this.adjList.has(start) || !this.adjList.has(end)) {
             console.log("Vértice não encontrado no grafo!");
