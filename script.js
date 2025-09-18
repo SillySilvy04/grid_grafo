@@ -71,6 +71,8 @@ function blockButtons(){
 }
 
 function resetButtons(){
+    endExist = false;
+    beginExist = false;
     for(let [vertex,neighbor] of graph.adjList){
         vertex.classList = "";
         vertex.classList.add("button");
@@ -86,18 +88,12 @@ function resetButtons(){
 }
 
 function callBFS(){
-    endExist = false;
-    beginExist = false;
-    
     let columns = document.getElementById("colSlider").value;
     let lines = document.getElementById("lineSlider").value;
     callSearch("BFS",lines,columns);
 }
 
 function callDFS(){
-    endExist = false;
-    beginExist = false;
-
     let columns = document.getElementById("colSlider").value;
     let lines = document.getElementById("lineSlider").value;
     callSearch("DFS",lines,columns);
