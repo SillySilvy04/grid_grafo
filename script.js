@@ -83,23 +83,18 @@ function resetButtons(){
     document.getElementById("DFS").classList.remove("button-blocked");
     document.getElementById("colSlider").classList.remove("button-blocked");
     document.getElementById("lineSlider").classList.remove("button-blocked");
-    graph = new Graph();
-    endExist = false;
-    beginExist = false;
 }
 
 function callBFS(){
-    graph = new Graph();
     endExist = false;
     beginExist = false;
-
+    
     let columns = document.getElementById("colSlider").value;
     let lines = document.getElementById("lineSlider").value;
     callSearch("BFS",lines,columns);
 }
 
 function callDFS(){
-    graph = new Graph();
     endExist = false;
     beginExist = false;
 
